@@ -1,0 +1,55 @@
+import 'package:flutter/material.dart';
+
+class TextFieldWidget extends StatelessWidget {
+  final String label;
+  final String hintText;
+  final TextEditingController controller;
+  final bool isPasswordField;
+  const TextFieldWidget({
+    super.key,
+    required this.label,
+    required this.hintText,
+    required this.controller,
+    this.isPasswordField = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        child: TextField(
+          controller: controller,
+          obscureText: isPasswordField,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.grey.shade100,
+            labelText: label,
+            hintText: hintText,
+            prefixIcon: _getPrefixIcon(),
+            labelStyle: const TextStyle(fontWeight: FontWeight.w600),
+            hintStyle: const TextStyle(color: Colors.grey),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(14),
+              borderSide: BorderSide(color: Colors.grey.shade400),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(14),
+              borderSide: BorderSide(color: Colors.grey.shade300),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(14),
+              borderSide: const BorderSide(color: Colors.blue, width: 1.5),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Icon? _getPrefixIcon() {
+    if (isPasswordField) return const Icon(Icons.lock_outline);
+    return null;
+  }
+}
