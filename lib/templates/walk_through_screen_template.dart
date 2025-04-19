@@ -7,36 +7,68 @@ class WalkThroughScreenTemplate extends StatelessWidget {
   final String _label;
   final String _description;
   final int _pageValue;
-    WalkThroughScreenTemplate(this._imagePath, this._label, this._description, this._pageValue,{super.key}){
-    print(_imagePath);
-   }
+
+  WalkThroughScreenTemplate(
+    this._imagePath,
+    this._label,
+    this._description,
+    this._pageValue, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:     Center(
-            child: Column(
-              children: [
-                SvgPicture.asset(_imagePath),
-                Text(_label , style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),),
-                Text(_description),
-                
-                Row(
-                  children: [
-                    Text("Skip" , style: TextStyle(color: AppColor.primaryColor)),
-                    Container(color: _pageValue == 1 ? AppColor.primaryColor : AppColor.secondaryColor,),
-                    Container(color: _pageValue == 2 ? AppColor.primaryColor : AppColor.secondaryColor,),
-                    Container(color: _pageValue == 3 ? AppColor.primaryColor : AppColor.secondaryColor,),
-                    Icon(Icons.forward, color: AppColor.primaryColor,)
-                  ],
-                )
-              ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(height: 60),
+            SvgPicture.asset(_imagePath),
+            const SizedBox(height: 60),
+            Text(
+              _label,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w900,
+              ),
             ),
-          ),
-   
+            Text(_description),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Skip",
+                    style: TextStyle(color: AppColor.primaryColor),
+                  ),
+                  Row(
+                    children: [
+                      _buildIndicator(_pageValue == 1),
+                      _buildIndicator(_pageValue == 2),
+                      _buildIndicator(_pageValue == 3),
+                    ],
+                  ),
+                  Icon(Icons.arrow_forward, color: AppColor.primaryColor),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIndicator(bool isActive) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4),
+      width: 12,
+      height: 12,
+      decoration: BoxDecoration(
+        color: isActive ? AppColor.primaryColor : AppColor.secondaryColor,
+        shape: BoxShape.circle,
+      ),
     );
   }
 }
