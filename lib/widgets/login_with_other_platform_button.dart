@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_railway_app/screens/login/login_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginWithOtherPlatformsButton extends StatelessWidget{

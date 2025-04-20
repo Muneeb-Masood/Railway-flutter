@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_railway_app/core/utils/colors.dart';
+import 'package:flutter_railway_app/helper_funtions/navigation_helper.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WalkThroughScreenTemplate extends StatelessWidget {
@@ -50,7 +51,15 @@ class WalkThroughScreenTemplate extends StatelessWidget {
                       _buildIndicator(_pageValue == 3),
                     ],
                   ),
-                  Icon(Icons.arrow_forward, color: AppColor.primaryColor),
+                  IconButton(color: AppColor.primaryColor,
+                  onPressed: () {
+                    
+                    if (_pageValue == 3) {
+                      navigateTo(context, "/login");
+                    } else {
+                    }
+                  }, icon: Icon(Icons.arrow_forward_ios_rounded),
+                  ),
                 ],
               ),
             )
