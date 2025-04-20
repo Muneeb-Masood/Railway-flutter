@@ -1,17 +1,18 @@
-import 'package:flutter_railway_app/screens/login/login_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_railway_app/login_bloc/login_bloc.dart';
+import 'package:flutter_railway_app/login_bloc/login_event.dart';
+import 'login_model.dart';
 
-class LoginModelImpl{
-  LoginModel model = LoginModel();
-  void onPressed(){
+class LoginModelImpl {
+  final LoginModel model = LoginModel.instance;
+  void onPressed(BuildContext context) {
+    final email = model.emailController.text.trim();
+    final password = model.passwordController.text.trim();
 
-    String email = model.emailController.text;
-    String password = model.passwordController.text;
-
-    if (email.isEmpty || password.isEmpty) {
-      print("Please fill in all fields.");
-    } else {
-      print("Logging in with email: $email and password: $password");
-    }
+    // Dispatch the event
+    context.read<LoginBloc>().add(
+      LoginButtonPressed(email: email, password: password),
+    );
   }
-
 }

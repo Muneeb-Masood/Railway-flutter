@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_railway_app/widgets/button.dart';
-
 class LoginModel{
+ static LoginModel instance = LoginModel._internal();
+  LoginModel._internal();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String loginButtonText = "Login";
