@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
 class TextFieldWidget extends StatelessWidget {
-  final String label;
-  final String hintText;
   final TextEditingController controller;
   final bool isPasswordField;
-  const TextFieldWidget({
+  String label;
+   TextFieldWidget({
     super.key,
-    required this.label,
-    required this.hintText,
     required this.controller,
     this.isPasswordField = false,
+    required this.label,
   });
 
   @override
@@ -25,10 +23,10 @@ class TextFieldWidget extends StatelessWidget {
             filled: true,
             fillColor: Colors.grey.shade100,
             labelText: label,
-            hintText: hintText,
-            prefixIcon: _getPrefixIcon(),
-            labelStyle: const TextStyle(fontWeight: FontWeight.w600),
-            hintStyle: const TextStyle(color: Colors.grey),
+            labelStyle: const TextStyle(
+              color: Colors.black87,
+            ),
+            floatingLabelBehavior: FloatingLabelBehavior.never,
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
@@ -46,10 +44,5 @@ class TextFieldWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Icon? _getPrefixIcon() {
-    if (isPasswordField) return const Icon(Icons.lock_outline);
-    return null;
   }
 }
