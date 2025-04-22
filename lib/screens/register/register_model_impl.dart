@@ -45,4 +45,10 @@ else if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>_\-+=]'))) {
 
   }
 
+  void clearCOntrollers(){
+    model.emailController.clear();
+    model.passwordController.clear();
+    model.cPasswordController.clear();
+  }
+
 }

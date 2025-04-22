@@ -27,6 +27,10 @@ class RegisterScreen extends StatelessWidget {
         ShowSnackBar.show(context, state.errorMessage, Colors.yellow);
       } else if (state is RegisterSuccessState) {
         ShowSnackBar.show(context, state.message, Colors.greenAccent);
+        modelImpl.clearCOntrollers();
+        Future.delayed(const Duration(seconds: 2), () {
+          navigateTo(context, "/home");
+        });
       }
       else if (state is RegisterLoadingState) {
         ShowSnackBar.show(context, "Loading...", Colors.blueAccent);
