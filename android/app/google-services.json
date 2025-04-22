@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "109695533753",
+    "project_id": "railway-df4a5",
+    "storage_bucket": "railway-df4a5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109695533753:android:88eebe0d6143ed01b55168",
+        "android_client_info": {
+          "package_name": "com.example.flutter_railway_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMvaM9Gts2flRVtXNcd5ChN7QIdzybxbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
