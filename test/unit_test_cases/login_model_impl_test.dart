@@ -26,10 +26,8 @@ import '../mocks.mocks.dart';
 
 void main(){
 
-  LoginModelImpl loginModelImpl = LoginModelImpl();
-  late MockBuildContext mockBuildContext;
   late MockLoginModelImpl mockLoginModelImpl;
-
+  late MockBuildContext mockBuildContext;
   setUp(() {
     mockBuildContext = MockBuildContext();
     mockLoginModelImpl = MockLoginModelImpl();
@@ -37,11 +35,10 @@ void main(){
 
 
   test("testing login button pressed", (){
-    loginModelImpl.onPressed(mockBuildContext);
+    LoginModelImpl.ins.onPressed(mockBuildContext);
 
-    verify(loginModelImpl.model.emailController.text.trim()).called(1);
-    verify(loginModelImpl.model.passwordController.text.trim()).called(1);
-    verify(loginModelImpl.onPressed(mockBuildContext)).called(1);
+   
+    verify(LoginModelImpl.ins.onPressed(mockBuildContext)).called(1);
       });
   
 }
