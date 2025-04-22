@@ -71,7 +71,7 @@ class LoginScreen extends StatelessWidget {
             ),
             CustomButton(
               text: model.loginButtonText,
-              onPressed: () => modelImpl.onPressed(context),
+              onPressed: () => modelImpl.onLoginPressed(context),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -85,7 +85,7 @@ class LoginScreen extends StatelessWidget {
               children: [
                 Text("Don't have an account?"),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () => modelImpl.onRegisterNewAccPressed(context),
                   child: const Text("Register new account"),
                 ),
               ],

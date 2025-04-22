@@ -6,13 +6,16 @@ import 'login_model.dart';
 
 class LoginModelImpl {
   final LoginModel model = LoginModel.instance;
-  void onPressed(BuildContext context) {
+  void onLoginPressed(BuildContext context) {
     final email = model.emailController.text.trim();
     final password = model.passwordController.text.trim();
 
-    // Dispatch the event
     context.read<LoginBloc>().add(
       LoginButtonPressed(email: email, password: password),
     );
+  }
+  
+  void onRegisterNewAccPressed(BuildContext context) {
+    Navigator.pushNamed(context, '/register');
   }
 }
