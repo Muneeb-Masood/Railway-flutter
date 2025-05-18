@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_railway_app/helper_funtions/navigation_helper.dart';
-import 'package:flutter_railway_app/login_bloc/login_bloc.dart';
-import 'package:flutter_railway_app/login_bloc/login_state.dart';
+import 'package:flutter_railway_app/blocs/login_bloc/login_bloc.dart';
+import 'package:flutter_railway_app/blocs/login_bloc/login_event.dart';
+import 'package:flutter_railway_app/blocs/login_bloc/login_state.dart';
+import 'package:flutter_railway_app/helper_funtions/helper_functions.dart';
 import 'package:flutter_railway_app/screens/login/login_model.dart';
 import 'package:flutter_railway_app/screens/login/login_model_impl.dart';
 import 'package:flutter_railway_app/widgets/button.dart';
@@ -24,14 +25,14 @@ class LoginScreen extends StatelessWidget {
   body: SingleChildScrollView(
     child: BlocBuilder<LoginBloc, LoginState>(
   builder: (BuildContext context, LoginState state) {
-    if (state is LoginSuccess) {
+    if (state is LoginSuccessState) {
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        navigateTo(context, "/home");
+        HelperFucntions.navigateTo(context, "/home");
       });
-    } else if (state is LoginFailure) {
+    } else if (state is LoginFailureState) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ShowSnackBar.show(context, state.error, Colors.red);
+        ShowSnackBar.show(context, state.message, Colors.red);
       });
     }
 
@@ -42,10 +43,10 @@ class LoginScreen extends StatelessWidget {
             Stack(
               alignment: Alignment.center,
               children: [
-                Container(
-                  child: SvgPicture.asset("assets/images/login/login1.svg", fit: BoxFit.cover),
+                SizedBox(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.5,
+                  child: SvgPicture.asset("assets/images/login/login1.svg", fit: BoxFit.cover),
                 ),
                 Positioned(
                   top: MediaQuery.of(context).size.height * 0.3,
@@ -85,7 +86,7 @@ class LoginScreen extends StatelessWidget {
               children: [
                 Text("Don't have an account?"),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {context.read<LoginBloc>().add(RegisterButtonPressed(context: context));},
                   child: const Text("Register new account"),
                 ),
               ],
@@ -95,6 +96,7 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginLoading)
           Positioned.fill(
             child: Container(
+              // ignore: deprecated_member_use
               color: Colors.black.withOpacity(0.5),
               child: const Center(
                 child: CircularProgressIndicator(),
