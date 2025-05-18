@@ -13,7 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatelessWidget {
   final LoginModel model = LoginModel.instance;
-  final LoginModelImpl modelImpl = LoginModelImpl();
+  final LoginModelImpl modelImpl = LoginModelImpl.ins;
 
   LoginScreen({super.key});
 

@@ -5,6 +5,8 @@ import 'package:flutter_railway_app/login_bloc/login_event.dart';
 import 'login_model.dart';
 
 class LoginModelImpl {
+  static LoginModelImpl ins = LoginModelImpl._internal();
+  LoginModelImpl._internal();
   final LoginModel model = LoginModel.instance;
   void onPressed(BuildContext context) {
     final email = model.emailController.text.trim();
