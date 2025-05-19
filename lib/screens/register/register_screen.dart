@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_railway_app/helper_funtions/helper_functions.dart';
 import 'package:flutter_railway_app/screens/register/register_model.dart';
 import 'package:flutter_railway_app/screens/register/register_model_impl.dart';
 import 'package:flutter_railway_app/widgets/button.dart';
@@ -52,7 +53,7 @@ class RegisterScreen extends StatelessWidget {
           label: "Enter your confirm password",
           controller: model.confirmPasswordController,
         ),
-        CustomButton(text: model.registerButtonText, onPressed: modelImpl.onPressed),
+        CustomButton(text: model.registerButtonText, onPressed: () => modelImpl.onPressed(model.emailController.text , model.passwordController.text , model.confirmPasswordController.text)),
       
 
         Row(
@@ -60,7 +61,9 @@ class RegisterScreen extends StatelessWidget {
           children: [
             Text("Already have an account?"),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                HelperFucntions.navigateTo(context,"/login");
+              },
               child: const Text("Login"),
             ),
           ],

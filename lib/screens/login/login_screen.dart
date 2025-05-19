@@ -59,6 +59,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+              
+
               ],
             ),
             TextFieldWidget(
@@ -74,13 +76,10 @@ class LoginScreen extends StatelessWidget {
               text: model.loginButtonText,
               onPressed: () => modelImpl.onPressed(context),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                LoginWithOtherPlatformsButton(model.googleButtonText, model.googleImage),
-                LoginWithOtherPlatformsButton(model.facebookButtonText, model.facebookImage),
-              ],
-            ),
+              CustomButton(
+            text: "Login with Biometrics",
+            onPressed: () => modelImpl.authenticateWithBiometrics(context),
+          ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_railway_app/screens/flight/flight_screen_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 List<DropdownMenuItem> countries = [
@@ -107,10 +108,12 @@ class LocationDestinationCard extends StatelessWidget {
 
 void setStartLocation(String value){
     fromLocation = value;
+    FlightModel.fromValue = value;
 }
 
 void setEndLocation(String value){
   toLocation = value;
+  FlightModel.toValue = value;
 }
 
 Future<DateTime> selectDate(BuildContext context) async{

@@ -1,85 +1,75 @@
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class HelperFucntions{
-  static void navigateTo(BuildContext context, String routeName) {
-  Navigator.of(context).pushReplacementNamed(routeName);
+class HelperFucntions {
+ static void navigateTo(BuildContext context, String routeName, [Map<String, dynamic>? data]) {
+  Navigator.of(context).pushReplacementNamed(
+    routeName,
+    arguments: data,
+  );
 }
 
-  static final Dio dio = Dio(
-    BaseOptions(
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 15),
-      responseType: ResponseType.json,
-    ),
-  );
-
-  static Future<Response> request(
+  static Future<http.Response> request(
     String url, {
     String method = 'GET',
-    Map<String, dynamic>? headers,
+    Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     dynamic data,
   }) async {
     try {
-      final opts = Options(
-        method: method,
-        headers: headers,
-      );
+      Uri uri = Uri.parse(url);
+      if (queryParams != null && queryParams.isNotEmpty) {
+        uri = uri.replace(queryParameters: {
+          ...uri.queryParameters,
+          ...queryParams.map((k, v) => MapEntry(k, v.toString())),
+        });
+      }
 
-      final response = await dio.request(
-        url,
-        options: opts,
-        queryParameters: queryParams,
-        data: data,
-      );
-
-      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
-        return response;
+      if (method == 'POST') {
+        return await http.post(
+          uri,
+          headers: headers,
+          body: data != null ? jsonEncode(data) : null,
+        );
       } else {
-        throw Exception(
-          'Request failed [${response.statusCode}]: ${response.statusMessage}',
+        return await http.get(
+          uri,
+          headers: headers,
         );
       }
-    } on DioException catch (e) {
-      throw Exception('Dio error: ${e.message}');
     } catch (e) {
-      throw Exception('Unexpected error: $e');
+      throw Exception('HTTP error: $e');
     }
   }
 
-
-  static Future<Response> getApi(
+  static Future<http.Response> getApi(
+    
     String url, {
-    Map<String, dynamic>? headers,
+    Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
-  }) =>
-      request(
-        url,
-        method: 'GET',
-        headers: headers,
-        queryParams: queryParams,
-      );
+  }) {
+    String newUrl = Uri.parse(url).toString();
+    return request(
+      newUrl,
+      method: 'GET',
+      headers: headers,
+      queryParams: queryParams,
+    );
+  }
 
-  static Future<Response> postApi(
+  static Future<http.Response> postApi(
     String url, {
-    Map<String, dynamic>? headers,
+    Map<String, String>? headers,
     Map<String, dynamic>? queryParams,
     dynamic body,
-  }) =>
-      request(
-        url,
-        method: 'POST',
-        headers: headers,
-        queryParams: queryParams,
-        data: body,
-      );
-
+  }) {
+    return request(
+      url,
+      method: 'POST',
+      headers: headers,
+      queryParams: queryParams,
+      data: body,
+    );
+  }
 }
-
-
-
-
-
-
-

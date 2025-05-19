@@ -56,6 +56,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState>{
        HelperFucntions.navigateTo(event.context, "/register");
       emit(RegisterButtonPressedState());
     });
+
+  //   on<BiometricLoginEvent>((event , emit) async{
+  //     emit(LoginLoading());
+  // try {
+  //   final user = await modelImpl.loginWithStoredCredentials();
+  //   emit(LoginSuccessState(user));
+  // } catch (e) {
+  //   emit(LoginFailureState("Biometric login failed"));
+  // }
+      
+  //   });
   }
   
 }

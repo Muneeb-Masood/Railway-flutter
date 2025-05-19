@@ -23,5 +23,7 @@ class LoginFailure extends LoginEvent {
 }
 
 
+class BiometricLoginEvent extends LoginEvent {}
+
 
 

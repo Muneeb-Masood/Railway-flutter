@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_railway_app/helper_funtions/helper_functions.dart';
+import 'package:flutter_railway_app/screens/home/home_model.dart';
 import 'package:flutter_railway_app/widgets/date_picker.dart';
 
 class HomeModelImpl {
+  HomeScreenModel get model => HomeScreenModel();
    Future<void> showDatePicker(BuildContext context) async {
      final result = await showModalBottomSheet(
       context: context,
@@ -22,8 +24,8 @@ class HomeModelImpl {
     }
   }
 
-   void onDetailsCompletion(BuildContext context){
-    HelperFucntions.navigateTo(context , "/flighResult");
+   void onDetailsCompletion(BuildContext context , Map<String , dynamic> data){
+    HelperFucntions.navigateTo(context , "/flighResult" , data);
     
    } 
 

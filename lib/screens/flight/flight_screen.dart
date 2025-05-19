@@ -1,20 +1,28 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_railway_app/screens/flight/flight_screen_model_impl.dart';
 
 class FlightResultsScreen extends StatefulWidget {
   const FlightResultsScreen({super.key});
 
   @override
-  State<FlightResultsScreen> createState() => _FlightResultsScreenState(); 
+  State<FlightResultsScreen> createState() => _FlightResultsScreenState();
 }
 
 class _FlightResultsScreenState extends State<FlightResultsScreen> {
   late final FlightResultsModelImpl modelImpl;
 
   @override
-  void initState() {
-    super.initState();
-    modelImpl = FlightResultsModelImpl(onUpdate: () => setState(() {}));
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final args = ModalRoute.of(context)!.settings.arguments;
+    final Map<String, dynamic> data = args as Map<String, dynamic>;
+
+    modelImpl = FlightResultsModelImpl(
+      onUpdate: () => setState(() {}),
+      extraParams: data,
+    );
+
     modelImpl.getAllFlight();
   }
 
@@ -23,4 +31,3 @@ class _FlightResultsScreenState extends State<FlightResultsScreen> {
     return modelImpl.buildScreen(context);
   }
 }
-

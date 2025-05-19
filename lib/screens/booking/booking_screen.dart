@@ -112,20 +112,16 @@ class _PassengerSheetState extends State<PassengerSheet> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {
-                  // Return the selected values to the parent
-                  Navigator.pop(context, {
+                onPressed: () { 
+                  Map<String , dynamic> data = {
                     'adults': adults,
                     'infants': infants,
                     'bags': bags,
                     'class': selectedClass,
-                  });
-                },
-                child: ElevatedButton(child: Text("Done"  , style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)), onPressed: () { 
-                  print(adults);
-                  print(infants);
-                  print(bags);
-                  modelImpl.onDetailsCompletion(context);}),
+                    
+                  };
+                  modelImpl.onDetailsCompletion(context , data);},
+                child: Text("Done"  , style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white) ),
               ),
             ),
           ],

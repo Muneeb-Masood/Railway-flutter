@@ -1,14 +1,22 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_railway_app/helper_funtions/helper_functions.dart';
 import 'package:flutter_railway_app/models/all_trains_data_model.dart';
+import 'package:flutter_railway_app/screens/payment/bill_screen.dart';
 import 'flight_screen_model.dart';
 
 class FlightResultsModelImpl {
   final Function() onUpdate;
-  FlightModel get model => FlightModel();
+  final Map<String, dynamic> extraParams;
+  String? fromValue;
+  String? toValue;
 
-  FlightResultsModelImpl({required this.onUpdate});
+  final FlightModel _model = FlightModel();
+
+  FlightResultsModelImpl({required this.onUpdate, required this.extraParams});
+
+  FlightModel get model => _model;
 
   Widget buildScreen(BuildContext context) {
     return Scaffold(
@@ -17,8 +25,8 @@ class FlightResultsModelImpl {
       body: ListView(
         children: [
           _flightInfo(),
-          _buildFilters(),
-          _buildFlightList(),
+          // _buildFilters(),
+          _buildFlightList(context),
         ],
       ),
     );
@@ -49,50 +57,78 @@ class FlightResultsModelImpl {
     );
   }
 
-  Widget _buildFlightList() {
+  Widget _buildFlightList(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: model.flights.length,
       itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.all(12),
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
-            boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${model.flights[index].sourceStationName} → ${model.flights[index].destinationStationName}",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(model.flights[index].trainName, style: const TextStyle(fontSize: 13)),
-                    Text(model.flights[index].trainType, style: const TextStyle(color: Colors.grey)),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Text("Status: ${model.flights[index].status}"),
-                        const Spacer(),
-                        Text(
-                          "Available seats: \$${model.flights[index].totalCoaches}",
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  ],
+        final flight = model.flights[index];
+        return GestureDetector(
+          onTap: () {
+  int adults = int.tryParse(extraParams['adults']?.toString() ?? '1') ?? 1;
+  int infants = int.tryParse(extraParams['infants']?.toString() ?? '0') ?? 0;
+  int adultFare = 20000;
+  int infantFare = 1000;
+  int subtotal = (adults * adultFare) + (infants * infantFare);
+  double tax = subtotal * 0.05;
+  double service = 500;
+  double total = subtotal + tax + service;
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => BillScreen(
+        adults: adults,
+        infants: infants,
+        adultFare: adultFare,
+        infantFare: infantFare,
+        tax: tax,
+        service: service,
+        total: total,
+      ),
+    ),
+  );
+},
+          child: Container(
+            margin: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${flight.sourceStationName} → ${flight.destinationStationName}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(flight.trainName, style: const TextStyle(fontSize: 13)),
+                      Text(flight.trainType, style: const TextStyle(color: Colors.grey)),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Text("Status: ${flight.status}"),
+                          const Spacer(),
+                          Text(
+                            "Available seats: ${flight.totalCoaches}",
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
@@ -121,7 +157,7 @@ class FlightResultsModelImpl {
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
               Text(
-                "SIN - HAN",
+                  "Details",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -135,8 +171,8 @@ class FlightResultsModelImpl {
             children: [
               Icon(Icons.location_on_outlined, color: Colors.grey[700]),
               const SizedBox(width: 8),
-              const Text(
-                "Singapore (SIN)",
+               Text(
+                FlightModel.fromValue == "" ? "US" : FlightModel.fromValue,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -150,8 +186,8 @@ class FlightResultsModelImpl {
             children: [
               Icon(Icons.flight_takeoff, color: Colors.grey[400]),
               const SizedBox(width: 8),
-              const Text(
-                "Hanoi (HAN)",
+               Text(
+                FlightModel.toValue == "" ? "PK" : FlightModel.fromValue,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -194,11 +230,17 @@ class FlightResultsModelImpl {
               const Spacer(),
               Icon(Icons.person, color: Colors.grey[500], size: 18),
               const SizedBox(width: 2),
-              const Text("2", style: TextStyle(color: Colors.grey)),
+              Text(
+                extraParams['adults']?.toString() ?? "2",
+                style: const TextStyle(color: Colors.grey),
+              ),
               const SizedBox(width: 8),
               Icon(Icons.child_care, color: Colors.grey[500], size: 18),
               const SizedBox(width: 2),
-              const Text("0", style: TextStyle(color: Colors.grey)),
+              Text(
+                extraParams['infants']?.toString() ?? "0",
+                style: const TextStyle(color: Colors.grey),
+              ),
               const SizedBox(width: 8),
               Icon(Icons.luggage, color: Colors.grey[500], size: 18),
               const SizedBox(width: 2),
@@ -210,18 +252,24 @@ class FlightResultsModelImpl {
     );
   }
 
-  void getAllFlight() async {
+  Future<void> getAllFlight() async {
     try {
-      Response response = await HelperFucntions.getApi("http://127.0.0.1:5000/api/train/allTrains");
-      if (response.statusCode == 200 && response.data != null) {
-        model.flights.clear();
-        for (var trainRecord in response.data) {
-          model.flights.add(Data.fromJson(trainRecord));
-        }
-        onUpdate();
+      final response = await HelperFucntions.getApi('http://192.168.56.1:5000/api/train/allTrains');
+
+      if (response.statusCode == 200) {
+        final allTrains = AllTrains.fromJson(jsonDecode(response.body));
+
+        print('Flights count: ${allTrains.data.length}'); // Check parsed list length
+
+        model.flights = allTrains.data; // Make sure you assign parsed data to your internal list
+
+        onUpdate(); // trigger UI update
+      } else {
+        print('HTTP error: ${response.statusCode}');
       }
     } catch (e) {
-      debugPrint('Error fetching flights: $e');
+      print('Error fetching flights: $e');
     }
   }
 }
+

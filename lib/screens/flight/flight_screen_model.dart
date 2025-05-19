@@ -3,6 +3,8 @@ import 'package:flutter_railway_app/models/all_trains_data_model.dart';
 class FlightModel {
 
   int selectedFilter = 0;
+  static String fromValue = "";
+  static String toValue = "";
   
 
   final List<String> filters = [
@@ -12,6 +14,6 @@ class FlightModel {
     "Nonstop",
   ];
 
-  final List<Data> flights = [];
+   List<Data> flights = [];
 
 }

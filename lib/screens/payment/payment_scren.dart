@@ -60,7 +60,7 @@ class PaymentScreen extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     const SizedBox(width: 4),
-                    const Text("Singapore"),
+                    // const Text("Singapore"),
                   ],
                 ),
                 Row(
@@ -83,7 +83,7 @@ class PaymentScreen extends StatelessWidget {
                 Row(
                   children: [
                     Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/2/2d/VietJet_Air_logo.png',
+                      'https://images.unsplash.com/photo-1742242027991-9615ec8851ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8',
                       width: 32,
                       height: 32,
                       errorBuilder: (context, error, stackTrace) => Icon(Icons.flight, size: 32, color: Colors.grey),
@@ -108,7 +108,7 @@ class PaymentScreen extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     const SizedBox(width: 4),
-                    const Text("Singapore"),
+                    // const Text("Singapore"),
                   ],
                 ),
                 Row(
@@ -131,7 +131,7 @@ class PaymentScreen extends StatelessWidget {
                 Row(
                   children: [
                     Image.network(
-                      'https://upload.wikimedia.org/wikipedia/commons/2/2d/VietJet_Air_logo.png',
+                    'https://images.unsplash.com/photo-1742242027991-9615ec8851ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8',
                       width: 32,
                       height: 32,
                       errorBuilder: (context, error, stackTrace) => Icon(Icons.flight, size: 32, color: Colors.grey),

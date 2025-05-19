@@ -1,21 +1,25 @@
-class AllTrains{
+class AllTrains {
   int statusCode;
-  Data data;
+  List<Data> data;
 
-  AllTrains(
-    this.statusCode,
-    this.data
-  );
+  AllTrains({
+    required this.statusCode,
+    required this.data,
+  });
+
   factory AllTrains.fromJson(Map<String, dynamic> json) {
     return AllTrains(
-      json['statusCode'],
-      Data.fromJson(json['data']),
+      statusCode: json['statuscode'] ?? 0,
+      data: (json['data'] as List<dynamic>)
+          .map((e) => Data.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
-      'statusCode': statusCode,
-      'data': data.toJson(),
+      'statuscode': statusCode,
+      'data': data.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -25,7 +29,7 @@ class Data {
   String trainId;
   String trainName;
   String trainType;
-  int totalCoaches;
+  String totalCoaches;
   String status;
   String sourceStationName;
   String destinationStationName;
@@ -40,26 +44,27 @@ class Data {
     required this.destinationStationName,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      trainId: json['trainId'],
-      trainName: json['trainName'],
-      trainType: json['trainType'],
-      totalCoaches: json['totalCoaches'],
-      status: json['status'],
-      sourceStationName: json['sourceStationName'],
-      destinationStationName: json['destinationStationName'],
-    );
-  }
+ factory Data.fromJson(Map<String, dynamic> json) {
+  return Data(
+    trainId: json['train_id'].toString(),
+    trainName: json['train_name'] ?? '',
+    trainType: json['train_type'] ?? '',
+    totalCoaches: json['total_coaches'].toString() ?? '0',
+    status: json['status'] ?? '',
+    sourceStationName: json['source_station_name'] ?? '',
+    destinationStationName: json['destination_station_name'] ?? '',
+  );
+}
+
   Map<String, dynamic> toJson() {
     return {
-      'trainId': trainId,
-      'trainName': trainName,
-      'trainType': trainType,
-      'totalCoaches': totalCoaches,
+      'train_id': trainId,
+      'train_name': trainName,
+      'train_type': trainType,
+      'total_coaches': totalCoaches,
       'status': status,
-      'sourceStationName': sourceStationName,
-      'destinationStationName': destinationStationName,
+      'source_station_name': sourceStationName,
+      'destination_station_name': destinationStationName,
     };
   }
 }
